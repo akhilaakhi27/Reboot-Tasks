@@ -1,0 +1,84 @@
+create database School;
+use School;
+create table Students(
+StudentID INT Auto_Increment Primary key,
+FirstName VARCHAR(50),
+LastName VARCHAR(50),
+DateOfBirth DATE,
+Gender ENUM('Male', 'Female'),
+EnrollmentDate DATE
+);
+INSERT INTO Students VALUES (1,'Akash', 'Susheelan', '1999-04-17', 'Male', '2023-12-20');
+INSERT INTO Students VALUES (2,'Akhila', 'Aravind', '1999-11-27', 'Female', '2023-12-20');
+INSERT INTO Students VALUES (3,'Ananth', 'Krishnan', '1994-02-28', 'Male', '2023-12-21');
+INSERT INTO Students VALUES (4,'Anjana', 'A', '1999-11-25', 'Female', '2023-12-22');
+INSERT INTO Students VALUES (5,'Anu', 'Krishnan', '1999-11-04', 'Male', '2023-12-23');
+INSERT INTO Students VALUES (6,'Anjitha', 'A', '1999-05-25', 'Female', '2023-12-24');
+INSERT INTO Students VALUES (7,'Arya', 'Raj', '1999-04-25', 'Female', '2023-12-25');
+INSERT INTO Students VALUES (8,'Athulliya', 'George', '1999-01-06', 'Female', '2023-12-26');
+INSERT INTO Students VALUES (9,'Gayathri', 'Mohan', '1998-11-04', 'Female', '2023-12-27');
+INSERT INTO Students VALUES (10,'Gourishankar', 'H', '1999-05-25', 'Male', '2023-12-28');
+INSERT INTO Students VALUES (11,'Jeena', 'Mary', '1998-03-14', 'Female', '2023-12-29');
+INSERT INTO Students VALUES (12,'Jeffin', 'George', '1999-06-25', 'Male', '2023-12-30');
+INSERT INTO Students VALUES (13,'Jeswin', 'John', '1999-08-14', 'Male', '2024-01-02');
+INSERT INTO Students VALUES (14,'Jomy', 'Johnson', '2001-05-25', 'Male', '2023-01-02');
+INSERT INTO Students VALUES (15,'Megha', 'Kurian', '1999-06-24', 'Female', '2024-01-03');
+INSERT INTO Students VALUES (16,'Lekshmi', 'Sukumaran', '1999-11-26', 'Female', '2023-01-04');
+INSERT INTO Students VALUES (17,'Neethu', 'Ganesh', '2001-04-25', 'Female', '2024-01-05');
+INSERT INTO Students VALUES (18,'Nithin', 'Joseph', '1999-04-17', 'Male', '2023-01-06');
+INSERT INTO Students VALUES (19,'Sandra', 'Suresh', '2001-08-07', 'Female', '2024-01-07');
+INSERT INTO Students VALUES (20,'Prashanth', 'A V ','1999-10-25', 'Male', '2024-01-10');
+
+select * from Students where EnrollmentDate >= '2024-01-01';
+delete from Students where StudentID=4;
+select * from Students;
+
+use School;
+CREATE TABLE Courses (
+    CourseID INT AUTO_INCREMENT PRIMARY KEY,
+    CourseName VARCHAR(100),
+    Credits INT
+);
+INSERT INTO  Courses  VALUES (01,'BSc.Mathematics',20);
+INSERT INTO  Courses  VALUES (02,'BA English',20);
+INSERT INTO  Courses  VALUES (03,'BSc.Botany',12);
+INSERT INTO  Courses  VALUES (04,'BBA',24);
+INSERT INTO Courses VALUES (05,'BCA',25);
+
+
+CREATE TABLE Enrollments (
+    EnrollmentID INT AUTO_INCREMENT PRIMARY KEY,
+    StudentID INT,
+    CourseID INT,
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+
+INSERT INTO  Enrollments VALUES (001,5,01);
+INSERT INTO  Enrollments  VALUES (002,6,02);
+INSERT INTO  Enrollments  VALUES (003,3,03);
+INSERT INTO  Enrollments  VALUES (004,2,04);
+INSERT INTO Enrollments VALUES (005,1,05);
+INSERT INTO  Enrollments VALUES (006,5,05);
+INSERT INTO  Enrollments  VALUES (007,11,04);
+INSERT INTO  Enrollments  VALUES (008,2,03);
+INSERT INTO  Enrollments  VALUES (009,9,02);
+INSERT INTO Enrollments VALUES (101,8,01);
+INSERT INTO  Enrollments VALUES (106,13,04);
+INSERT INTO  Enrollments  VALUES (105,5,03);
+INSERT INTO  Enrollments  VALUES (104,15,02);
+INSERT INTO  Enrollments  VALUES (103,16,01);
+INSERT INTO Enrollments VALUES (102,17,05);
+INSERT INTO  Enrollments  VALUES (107,5,02);
+INSERT INTO  Enrollments  VALUES (108,19,01);
+INSERT INTO Enrollments VALUES (109,20,05); 
+
+
+select Gender,count(*) as StudentsNumber from Students group by Gender;
+
+SELECT s.StudentID, s.FirstName, s.LastName, COUNT(e.CourseID) AS NumberOfCourses
+FROM Students s
+JOIN Enrollments e ON s.StudentID = e.StudentID
+GROUP BY s.StudentID, s.FirstName, s.LastName
+ORDER BY NumberOfCourses DESC
+LIMIT 2;
